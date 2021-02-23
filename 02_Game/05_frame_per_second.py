@@ -10,6 +10,9 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 
 pygame.display.set_caption("KONA Game") # 게임 이름
 
+# FPS
+clock = pygame.time.Clock()
+
 # 배경이미지 불러오기
 background = pygame.image.load("D:/Project/PythonWorkSpace/02_Game/Image/BG.JPG")
 
@@ -26,12 +29,16 @@ to_x = 0
 to_y = 0
 
 # 이동속도
-speed = 1
+
+speed = 0.6
+
 
 # Event Loop 
 running = True #게임 진행중 여부 확인. 
 
 while running:
+    dt = clock.tick(60)
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -52,8 +59,8 @@ while running:
             elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 to_y = 0
 
-    character_x_pos += to_x
-    character_y_pos += to_y
+    character_x_pos += to_x * dt
+    character_y_pos += to_y * dt
 
     # 가로 경계 설정.
     if character_x_pos < 0:
