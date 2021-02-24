@@ -47,6 +47,18 @@ weapon_speed = 5
 
 weapons = []
 
+# Ball
+# 공의 가변적 요소는 1. 스피드, 2. 사이즈(이미지), 3. 방향(x_pos), 4. 튕김(y_pos)
+ball_speeds_y = [-18, -15, -12, -9]
+ball_images = [
+    pygame.image.load("D:/Project/PythonWorkSpace/02_Game/Image/ball_01.png"),
+    pygame.image.load("D:/Project/PythonWorkSpace/02_Game/Image/ball_02.png"),
+    pygame.image.load("D:/Project/PythonWorkSpace/02_Game/Image/ball_03.png"),
+    pygame.image.load("D:/Project/PythonWorkSpace/02_Game/Image/ball_04.png")
+]
+
+balls = []
+
 # Move 
 to_x = 0
 
