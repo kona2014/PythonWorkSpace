@@ -4,8 +4,8 @@ import pygame
 pygame.init()
 
 # Screen Size
-screen_width = 480
-screen_height = 640
+screen_width = 640 
+screen_height = 480
 screen = pygame.display.set_mode((screen_width, screen_height))
 
 # Title
@@ -22,12 +22,11 @@ background = pygame.image.load("D:/Project/PythonWorkSpace/02_Game/Image/BG.JPG"
 # Text Font
 game_font = pygame.font.Font(None, 40)
 
-# Total Sunning Time(SEC)
-total_time = 10
+# Total Running Time(SEC)
+total_time = 100
 
 # 시작시간정의
 start_ticks = pygame.time.get_ticks()
-
 
 # User Character
 character = pygame.image.load("D:/Project/PythonWorkSpace/02_Game/Image/CH.jpg")
@@ -37,20 +36,23 @@ character_height = character_size[1]
 character_x_pos = (screen_width / 2) - (character_width / 2)
 character_y_pos = screen_height - character_height
 
-# Enemy Char.
-enemy = pygame.image.load("D:/Project/PythonWorkSpace/02_Game/Image/enemy.png")
-enemy_size = enemy.get_rect().size
-enemy_width = enemy_size[0]
-enemy_height = enemy_size[1]
-enemy_x_pos = (screen_width / 2) - (enemy_width / 2)
-enemy_y_pos = (screen_height / 2) - (enemy_height / 2)
+# Weapon
+weapon = pygame.image.load("D:/Project/PythonWorkSpace/02_Game/Image/WEAPON.png")
+weapon_size = weapon.get_rect().size
+weapon_width = weapon_size[0]
+weapon_height = weapon_size[1]
+weapon_x_pos = (screen_width / 2) - (weapon_width / 2)
+weapon_y_pos = (screen_height / 2) - (weapon_height / 2)
+weapon_speed = 5
+
+weapons = []
 
 # Move 
 to_x = 0
-to_y = 0
 
 # Move Speed
 speed = 0.6
+
 
 
 ########################################################################################################
@@ -69,19 +71,23 @@ while running:
                 to_x -= speed
             elif event.key == pygame.K_RIGHT:
                 to_x += speed
-            elif event.key == pygame.K_UP:
-                to_y -= speed
-            elif event.key == pygame.K_DOWN:
-                to_y += speed
+            elif event.key == pygame.K_SPACE:
+                weapon_x_pos = character_x_pos + character_width / 2 - weapon_width / 2
+                weapon_y_pos = character_y_pos
+                weapons.append([weapon_x_pos, weapon_y_pos])
 
         if event.type == pygame.KEYUP:  # 키보드를 뗐다
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 to_x = 0
-            elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                to_y = 0
 
+    # 움직임 적용
     character_x_pos += to_x * dt
-    character_y_pos += to_y * dt
+    weapons = [ [w[0], w[1] - weapon_speed] for w in weapons]
+    # for w in weapons: # 천정에 닿으면 사라지는 무기
+    #     if w[1] < 0:
+    #         weapons.remove(w) # 리스트 내에 리스트가 일치하면 제거.
+    # 이렇게도 구현할 수 있다. 
+    weapons = [ [w[0], w[1]] for w in weapons if w[1] > 0]
 
     # 가로 경계 설정.
     if character_x_pos < 0:
@@ -100,20 +106,17 @@ while running:
     character_rect.left = character_x_pos
     character_rect.top = character_y_pos
 
-    enemy_rect = enemy.get_rect()
-    enemy_rect.left = enemy_x_pos
-    enemy_rect.top = enemy_y_pos
-
     # 충돌 처리 - 체크
-    if character_rect.colliderect(enemy_rect):
-        print("충돌했음")
-        running = False
 
     screen.fill((0, 0, 255))
     # screen.blit(background, (0,0)) # 배경 그리기.
 
+
+    # 그리기 
+    for weapon_x_pos, weapon_y_pos in weapons:
+        screen.blit(weapon, (weapon_x_pos, weapon_y_pos))
+
     screen.blit(character, (character_x_pos, character_y_pos))
-    screen.blit(enemy, (enemy_x_pos, enemy_y_pos))
 
     # 타이머 집어넣기
     # 경과 시간 계산
@@ -128,7 +131,7 @@ while running:
     pygame.display.update()
 
 #  Delay
-pygame.time.delay(2000) # (ms 라서 1000 곱해줘서 sec 계산)
+# pygame.time.delay(2000) # (ms 라서 1000 곱해줘서 sec 계산)
 
 # 게임 종료처리
 pygame.quit()
