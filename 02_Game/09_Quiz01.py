@@ -1,4 +1,5 @@
 import pygame
+import os
 ########################################################################################################
 # 1. Basic Setting ( Must Coding )
 pygame.init()
@@ -11,13 +12,15 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 # Title
 pygame.display.set_caption("KONA Game")
 
+path = os.path.dirname(os.path.realpath(__file__))
+
 # FPS
 clock = pygame.time.Clock()
 ########################################################################################################
 # 2. User Default Setting
 
 # Background Image
-background = pygame.image.load("D:/Project/PythonWorkSpace/02_Game/Image/BG.JPG")
+background = pygame.image.load(path + "/Image/BG.JPG")
 
 # Text Font
 game_font = pygame.font.Font(None, 40)
@@ -29,7 +32,7 @@ total_time = 100
 start_ticks = pygame.time.get_ticks()
 
 # User Character
-character = pygame.image.load("D:/Project/PythonWorkSpace/02_Game/Image/CH.jpg")
+character = pygame.image.load(path + "/Image/CH.jpg")
 character_size = character.get_rect().size
 character_width = character_size[0]
 character_height = character_size[1]
@@ -37,7 +40,7 @@ character_x_pos = (screen_width / 2) - (character_width / 2)
 character_y_pos = screen_height - character_height
 
 # Weapon
-weapon = pygame.image.load("D:/Project/PythonWorkSpace/02_Game/Image/WEAPON.png")
+weapon = pygame.image.load(path + "/Image/WEAPON.png")
 weapon_size = weapon.get_rect().size
 weapon_width = weapon_size[0]
 weapon_height = weapon_size[1]
@@ -50,12 +53,12 @@ weapons = []
 # Ball
 # 공의 가변적 요소는 1. 스피드, 2. 사이즈(이미지), 3. 방향(x_pos), 4. 튕김(y_pos)
 ball_speeds_y = [-18, -15, -12, -9]
-ball_images = [
-    pygame.image.load("D:/Project/PythonWorkSpace/02_Game/Image/ball_01.png"),
-    pygame.image.load("D:/Project/PythonWorkSpace/02_Game/Image/ball_02.png"),
-    pygame.image.load("D:/Project/PythonWorkSpace/02_Game/Image/ball_03.png"),
-    pygame.image.load("D:/Project/PythonWorkSpace/02_Game/Image/ball_04.png")
-]
+# ball_images = [
+#     pygame.image.load(path + "/Image/ball_01.png"),
+#     pygame.image.load(path + "/Image/ball_02.png"),
+#     pygame.image.load(path + "/Image/ball_03.png"),
+#     pygame.image.load(path + "/Image/ball_04.png")
+# ]
 
 balls = []
 
