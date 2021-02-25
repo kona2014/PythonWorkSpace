@@ -12,6 +12,7 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 # Title
 pygame.display.set_caption("KONA Game")
 
+# Current Folder Path
 path = os.path.dirname(os.path.realpath(__file__))
 
 # FPS
@@ -53,14 +54,24 @@ weapons = []
 # Ball
 # 공의 가변적 요소는 1. 스피드, 2. 사이즈(이미지), 3. 방향(x_pos), 4. 튕김(y_pos)
 ball_speeds_y = [-18, -15, -12, -9]
-# ball_images = [
-#     pygame.image.load(path + "/Image/ball_01.png"),
-#     pygame.image.load(path + "/Image/ball_02.png"),
-#     pygame.image.load(path + "/Image/ball_03.png"),
-#     pygame.image.load(path + "/Image/ball_04.png")
-# ]
+ball_images = [
+    pygame.image.load(path + "/Image/ball_01.png"),
+    pygame.image.load(path + "/Image/ball_02.png"),
+    pygame.image.load(path + "/Image/ball_03.png"),
+    pygame.image.load(path + "/Image/ball_04.png")
+]
 
 balls = []
+
+# 최초 생성 정보 
+balls.append({
+    "pos_x" : 50,
+    "pos_y" : 50,
+    "image_index" : 0,
+    "to_x" : 3,
+    "to_y" : -6,
+    "init_speed_y" : ball_speeds_y[0]
+})
 
 # Move 
 to_x = 0
@@ -116,6 +127,7 @@ while running:
     elif character_y_pos > screen_height - character_height:
         character_y_pos = screen_height - character_height
 
+
     # 충돌 처리 - Rect 정보 업데이트.
     character_rect = character.get_rect()
     character_rect.left = character_x_pos
@@ -123,15 +135,43 @@ while running:
 
     # 충돌 처리 - 체크
 
-    screen.fill((0, 0, 255))
-    # screen.blit(background, (0,0)) # 배경 그리기.
+
 
 
     # 그리기 
+
+    screen.fill((0, 0, 255))
+    # screen.blit(background, (0,0)) # 배경 그리기.
+
     for weapon_x_pos, weapon_y_pos in weapons:
         screen.blit(weapon, (weapon_x_pos, weapon_y_pos))
 
     screen.blit(character, (character_x_pos, character_y_pos))
+
+    # 공 그리기
+    for ball_index, ball_value in enumerate(balls):
+        ball_pos_x = ball_value["pos_x"]
+        ball_pos_y = ball_value["pos_y"]
+        ball_image_index = ball_value["image_index"]
+
+        ball_size = ball_images[ball_image_index].get_rect().size
+        ball_width = ball_size[0]
+        ball_height = ball_size[1]
+
+        # 벽 충돌처리.
+        if ball_pos_x < 0 or ball_pos_x > screen_width - ball_width:
+            ball_value["to_x"] = ball_value["to_x"] * -1
+
+        # 바닥충돌
+        if ball_pos_y >= screen_height - ball_height:
+            ball_value["to_y"] = ball_value["init_speed_y"]
+        else: # 그 외에는 중력 적용
+            ball_value["to_y"] += 0.5
+
+        ball_value["pos_x"] += ball_value["to_x"]
+        ball_value["pos_y"] += ball_value["to_y"]
+
+        screen.blit(ball_images[ball_image_index], (ball_pos_x, ball_pos_y))
 
     # 타이머 집어넣기
     # 경과 시간 계산
