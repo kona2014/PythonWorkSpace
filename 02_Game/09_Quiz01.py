@@ -133,7 +133,27 @@ while running:
     character_rect.left = character_x_pos
     character_rect.top = character_y_pos
 
-    # 충돌 처리 - 체크
+    for ball_idx, ball_val in enumerate(balls):
+        ball_pos_x = ball_val["pos_x"]
+        ball_pos_y = ball_val["pos_y"]
+        ball_image_index = ball_val["image_index"]
+
+        ball_rect = ball_images[ball_image_index].get_rect()
+        ball_rect.left = ball_pos_x
+        ball_rect.top = ball_pos_y
+
+    #   공과 캐릭터 충돌
+        if ball_rect.colliderect(character_rect):
+            running = False
+            break
+
+        # 공과 무기 충돌
+        # for weapon_val in enumerate(weapons):
+        #     weapon_x_pos = weapon_val[0]
+        #     weapon_y_pos = weapon_val[1]
+
+        #     weapon_rect = 
+
 
 
 
@@ -176,7 +196,7 @@ while running:
     # 타이머 집어넣기
     # 경과 시간 계산
     elapsed_time = ( pygame.time.get_ticks() - start_ticks ) / 1000 # 초 단위로 변환(/1000)
-    timer = game_font.render(str(int(total_time - elapsed_time)), True, (255, 255,255))
+    timer = game_font.render(str(int(total_time - elapsed_time)), True, (255, 255, 255))
     screen.blit(timer, (10, 10))
 
     if total_time - elapsed_time <= 0:
