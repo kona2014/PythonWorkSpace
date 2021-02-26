@@ -3,7 +3,7 @@ import os
 ########################################################################################################
 # 1. Basic Setting ( Must Coding )
 pygame.init()
-
+ 
 # Screen Size
 screen_width = 640 
 screen_height = 480
@@ -58,7 +58,7 @@ weapon_width = weapon_size[0]
 weapon_height = weapon_size[1]
 weapon_x_pos = (screen_width / 2) - (weapon_width / 2)
 weapon_y_pos = (screen_height / 2) - (weapon_height / 2)
-weapon_speed = 5
+weapon_speed = 6
 
 weapons = []
 
