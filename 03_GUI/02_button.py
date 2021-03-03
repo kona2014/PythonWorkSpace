@@ -1,3 +1,5 @@
+import os
+
 from tkinter import *
 
 root = Tk()
@@ -20,8 +22,18 @@ btn4.pack()
 btn5 = Button(root, fg="red", bg="yellow", text="e") #  fg = 글자색, bg = 배경색
 btn5.pack()
 
-photo = PhotoImage(file="\Images\KONA.jpg")
+# Current Folder Path
+path = os.path.dirname(os.path.realpath(__file__))
+filename = path + "\Images\KONA.png"
+# filename = "Images\KONA.jpg" 
+photo = PhotoImage(file=filename) # PhotoImage 함수는 JPG 파일은 사용못한다. 
 btn6 = Button(root, image=photo)
 btn6.pack()
+
+def onPressButton():
+    print("onPressButton")
+
+btn7 = Button(root, text="Command", command=onPressButton)
+btn7.pack()
 
 root.mainloop()
