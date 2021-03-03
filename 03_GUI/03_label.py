@@ -19,7 +19,7 @@ lable02.pack()
 def onClick():
     lable01.config(text="BBB")
 
-    global photo2
+    global photo2  # 전역변수로 선언해줘야 업데이트 된다. 
 
     photo2 = PhotoImage(file="03_GUI\Images\image2.png")
     btn.config(image=photo2)    
