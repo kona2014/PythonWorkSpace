@@ -18,6 +18,15 @@ btn1.pack()
 btn2.pack()
 btn3.pack()
 
+drink_var = StringVar() # 문자열 속성
+btn4 = Radiobutton(root, text="aaa", value="가", variable=drink_var)
+btn5 = Radiobutton(root, text="kkk", value="나", variable=drink_var)
+btn5.select()
+
+btn4.pack()
+btn5.pack()
+
+
 def onClick():
     print(berger_var.get())
 
